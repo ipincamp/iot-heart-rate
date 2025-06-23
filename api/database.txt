@@ -1,0 +1,20 @@
+CREATE DATABASE db_iot_heart_rate;
+DROP TABLE IF EXISTS heart_rate_data;
+
+# PostgreSQL
+CREATE TABLE IF NOT EXISTS heart_rate_data (
+  id SERIAL PRIMARY KEY,
+  bpm REAL NOT NULL,
+  avg_bpm REAL NOT NULL,
+  spo2 REAL NOT NULL,
+  timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+# MySQL (Adjust self...)
+CREATE TABLE IF NOT EXISTS `heart_rate_data` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `bpm` FLOAT NOT NULL,
+  `avg_bpm` FLOAT NOT NULL,
+  `spo2` FLOAT NOT NULL,
+  `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
