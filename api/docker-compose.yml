@@ -1,0 +1,45 @@
+services:
+  api:
+    build: .
+    container_name: iot_express_api
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+    networks:
+      - iot-network
+
+  db:
+    image: postgres:17.2
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - iot-network
+
+  adminer:
+    image: adminer
+    container_name: adminer_ui
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+    networks:
+      - iot-network
+
+volumes:
+  pgdata:
+
+
+networks:
+  iot-network:
+    driver: bridge

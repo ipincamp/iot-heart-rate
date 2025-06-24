@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS heart_rate_data;
+
+CREATE TABLE IF NOT EXISTS heart_rate_data (
+    id SERIAL PRIMARY KEY,
+    bpm REAL NOT NULL,
+    avg_bpm REAL NOT NULL,
+    spo2 REAL NOT NULL,
+    "timestamp" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
