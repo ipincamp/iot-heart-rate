@@ -6,14 +6,14 @@
 #include "heartRate.h"
 
 // --- KREDENSIAL DAN KONFIGURASI ---
-const char* ssid = "SSID_WIFI";
-const char* password = "SSID_PASSWORD";
-const char* serverName = "URL_API";
+const char* ssid = "Galaxy A13 88DE";
+const char* password = "usls6331";
+const char* serverName = "http://51.79.254.119:3000/api/heartrate";
 
 unsigned long lastUploadTime = 0;
-const long uploadInterval = 10000;  // 10 detik
+const long uploadInterval = 5000;  // 5 detik
 
-MAX30105 particleSensor; 
+MAX30105 particleSensor;
 
 // --- Variabel global untuk sensor ---
 const byte RATE_SIZE = 4;
@@ -111,9 +111,9 @@ void loop() {
         // ==========================================================
         // --- FORMAT JSON DENGAN SEMUA DATA SEBAGAI FLOAT ---
         JSONVar postData;
-        postData["bpm"] = beatsPerMinute;
-        postData["avg_bpm"] = beatAvg;
-        postData["spo2"] = spo2;
+        postData["bpm"] = beatsPerMinute;  // Dikirim sebagai float
+        postData["avg_bpm"] = beatAvg;     // Dikirim sebagai float
+        postData["spo2"] = spo2;           // Dikirim sebagai float
         // ==========================================================
 
         String jsonString = JSON.stringify(postData);
@@ -159,7 +159,7 @@ void loop() {
       for (byte x = 0; x < RATE_SIZE; x++) {
         totalBpm += rates[x];
       }
-      beatAvg = totalBpm / RATE_SIZE;
+      beatAvg = totalBpm / RATE_SIZE;  // <<< DIUBAH: Hasil pembagian sekarang menjadi float
     }
   }
 
