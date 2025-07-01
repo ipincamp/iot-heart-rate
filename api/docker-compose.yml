@@ -15,6 +15,18 @@ services:
     networks:
       - iot-network
 
+  webhook:
+    build:
+      context: .
+      dockerfile: webhook.Dockerfile
+    container_name: iot_webhook_listener
+    ports:
+      - "3002:3002"
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - iot-network
+
   db:
     image: postgres:17.2
     container_name: postgres_db
