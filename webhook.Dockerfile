@@ -2,6 +2,8 @@ FROM node:20.17.0-alpine
 
 RUN apk add --no-cache git
 
+RUN git config --global --add safe.directory /usr/src/app
+
 WORKDIR /usr/src/app
 
 COPY webhook-listener.js .
