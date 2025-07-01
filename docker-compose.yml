@@ -28,6 +28,9 @@ services:
       - "3002:3002"
     volumes:
       - .:/usr/src/app
+      - ${SSH_AUTH_SOCK}:/ssh-agent
+    environment:
+      - SSH_AUTH_SOCK=/ssh-agent
     networks:
       - iot-network
 

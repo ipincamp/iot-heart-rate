@@ -1,6 +1,6 @@
 FROM node:20.17.0-alpine
 
-RUN apk add --no-cache git
+RUN apk add --no-cache git openssh-client
 
 RUN git config --global --add safe.directory /usr/src/app
 
