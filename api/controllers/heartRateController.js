@@ -14,6 +14,19 @@ exports.getAllHeartRateData = async (req, res) => {
   }
 };
 
+// Mengambil rata-rata detak jantung
+exports.getAverageHeartRate = async (req, res) => {
+  try {
+    const result = await db.query(
+      "SELECT AVG(bpm) AS avg_bpm FROM heart_rate_data"
+    );
+    res.status(200).json(result.rows[0]);
+  } catch (err) {
+    console.error("Error fetching average heart rate:", err);
+    res.status(500).send("Internal Server Error");
+  }
+}
+
 // Menambahkan data detak jantung baru
 exports.addHeartRateData = async (req, res) => {
   const { bpm, avg_bpm, spo2 } = req.body;
