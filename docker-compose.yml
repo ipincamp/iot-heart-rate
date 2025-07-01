@@ -8,6 +8,12 @@ services:
       - ./api:/usr/src/app
       - /usr/src/app/node_modules
     command: npm run dev
+    environment:
+      DB_HOST: db
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
     depends_on:
       - db
     networks:
@@ -29,9 +35,9 @@ services:
     image: postgres:17.2
     container_name: iot-postgres-db
     environment:
-      POSTGRES_USER: ${API_DB_USER}
-      POSTGRES_PASSWORD: ${API_DB_PASSWORD}
-      POSTGRES_DB: ${API_DB_DATABASE}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
     volumes:
       - iot-pgdata:/var/lib/postgresql/data
       - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
