@@ -22,8 +22,6 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_DATABASE}
-    ports:
-      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -34,7 +32,7 @@ services:
     image: adminer
     container_name: adminer_ui
     ports:
-      - "8080:8080"
+      - "3001:8080"
     depends_on:
       - db
     networks:
