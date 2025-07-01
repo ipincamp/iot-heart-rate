@@ -3,11 +3,11 @@ require("dotenv").config(); // <-- Tambahkan baris ini di paling atas
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  user: process.env.DB_USER, // Menggunakan variabel lingkungan
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  user: process.env.API_DB_USER, // Menggunakan variabel lingkungan
+  host: process.env.API_DB_HOST,
+  database: process.env.API_DB_DATABASE,
+  password: process.env.API_DB_PASSWORD,
+  port: process.env.API_DB_PORT,
 });
 
 pool.on("error", (err) => {

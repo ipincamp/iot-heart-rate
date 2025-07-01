@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const heartRateRoutes = require("./routes/heartrate");
 
 const app = express();
-const port = process.env.API_PORT || 3000; // Menggunakan variabel lingkungan, atau default ke 3000
+const port = process.env.API_APP_PORT || 3000; // Menggunakan variabel lingkungan, atau default ke 3000
 
 // Middleware untuk mem-parsing body JSON
 app.use(bodyParser.json());
