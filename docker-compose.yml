@@ -1,13 +1,13 @@
 services:
   api:
-    build: .
+    build: ./api
     container_name: iot_express_api
     ports:
       - "3000:3000"
     env_file:
       - ./.env
     volumes:
-      - .:/usr/src/app
+      - ./api:/usr/src/app
       - /usr/src/app/node_modules
     command: npm run dev
     depends_on:
