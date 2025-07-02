@@ -3,13 +3,16 @@ const express = require("express");
 const router = express.Router();
 const heartRateController = require("../controllers/heartRateController");
 
-// Rute GET untuk mengambil semua data detak jantung
+// Default: semua data 1 jam terakhir
 router.get("/", heartRateController.getAllHeartRateData);
 
-// Rute GET untuk mengambil rata-rata detak jantung
-router.get("/average", heartRateController.getAverageHeartRate);
-
-// Rute POST untuk menambahkan data detak jantung baru
+// Post data dari IoT
 router.post("/", heartRateController.addHeartRateData);
+
+// New: tren per 15 menit dari 1 jam terakhir
+router.get("/trend/hourly", heartRateController.getHourlyTrend);
+
+// New: tren harian (7 hari terakhir)
+router.get("/trend/daily", heartRateController.getDailyTrend);
 
 module.exports = router;
