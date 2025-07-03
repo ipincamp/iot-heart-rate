@@ -1,11 +1,14 @@
+// lib/widgets/line_chart_trend.dart
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../models/heart_data.dart';
 
 class LineChartTrend extends StatelessWidget {
   final List<HeartData> data;
 
-  const LineChartTrend({super.key, required this.data});
+  const LineChartTrend({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,45 +16,80 @@ class LineChartTrend extends StatelessWidget {
       return const Center(child: Text('Tidak ada data tren.'));
     }
 
-    // Pakai index sebagai X dan BPM sebagai Y
-    final spots = List.generate(data.length, (i) {
-      return FlSpot(i.toDouble(), data[i].bpm);
-    });
+    final spots = data
+        .asMap()
+        .entries
+        .map((e) => FlSpot(e.key.toDouble(), e.value.bpm))
+        .toList();
 
-    return LineChart(
-      LineChartData(
-        minY: 0,
-        maxY: 180,
-        titlesData: FlTitlesData(
-          bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              getTitlesWidget: (value, _) {
-                final index = value.toInt();
-                if (index >= 0 && index < data.length) {
-                  return Text(data[index].waktu);
-                }
-                return const Text('');
-              },
-              interval: 1,
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: LineChart(
+        LineChartData(
+          minY: 0,
+          maxY: 180,
+          gridData: FlGridData(show: true),
+          borderData: FlBorderData(show: true),
+          titlesData: FlTitlesData(
+            show: true,
+            topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+
+            // Sumbu X (waktu)
+            bottomTitles: AxisTitles(
+              axisNameWidget: const Text('Waktu'),
+              sideTitles: SideTitles(
+                showTitles: true,
+                interval: 1,
+                reservedSize: 32,
+                getTitlesWidget: (value, meta) {
+                  final idx = value.toInt();
+                  if (idx < 0 || idx >= data.length) {
+                    return const SizedBox.shrink();
+                  }
+
+                  // Format waktu menggunakan DateFormat
+                  final datetimeString = data[idx].date; // This is a String?
+                  final datetime = datetimeString != null
+                      ? DateTime.parse(datetimeString)
+                      : DateTime.now();
+                  final label = DateFormat('HH:mm').format(datetime);
+
+                  return SideTitleWidget(
+                    axisSide: meta.axisSide,
+                    child: Text(label, style: const TextStyle(fontSize: 10)),
+                  );
+                },
+              ),
+            ),
+
+            // Sumbu Y (BPM)
+            leftTitles: AxisTitles(
+              axisNameWidget: const Text('BPM'),
+              sideTitles: SideTitles(
+                showTitles: true,
+                interval: 30,
+                reservedSize: 40,
+                getTitlesWidget: (value, meta) {
+                  return SideTitleWidget(
+                    axisSide: meta.axisSide,
+                    child: Text(value.toInt().toString()),
+                  );
+                },
+              ),
             ),
           ),
-          leftTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: true, interval: 30),
-          ),
+          lineBarsData: [
+            LineChartBarData(
+              spots: spots,
+              isCurved: true,
+              barWidth: 2,
+              color: Colors.red,
+              dotData: FlDotData(show: false),
+              belowBarData: BarAreaData(show: false),
+            ),
+          ],
         ),
-        gridData: FlGridData(show: true),
-        borderData: FlBorderData(show: true),
-        lineBarsData: [
-          LineChartBarData(
-            isCurved: true,
-            spots: spots,
-            color: Colors.red,
-            barWidth: 2,
-            belowBarData: BarAreaData(show: false),
-            dotData: FlDotData(show: false),
-          ),
-        ],
       ),
     );
   }

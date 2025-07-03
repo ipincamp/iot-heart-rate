@@ -7,7 +7,6 @@ class BarChartDaily extends StatelessWidget {
   const BarChartDaily({super.key, required this.data});
 
   @override
-  @override
   Widget build(BuildContext context) {
     final sorted = data.where((e) => e.date != null).toList()
       ..sort((a, b) => a.date!.compareTo(b.date!));
