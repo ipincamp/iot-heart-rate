@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  final String baseUrl = 'http://localhost:3000/api/heartrate';
+  final String baseUrl = 'http://51.79.254.119:3000/api/heartrate';
 
   Future<List<dynamic>> fetchHeartRate() async {
     final response = await http.get(Uri.parse(baseUrl));

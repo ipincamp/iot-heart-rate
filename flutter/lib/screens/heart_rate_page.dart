@@ -158,7 +158,11 @@ class _HeartRatePageState extends State<HeartRatePage>
                     const SizedBox(height: 8),
                     SizedBox(
                       height: 200,
-                      child: LineChartTrend(data: hourlyTrendData),
+                      child: hourlyTrendData.isEmpty
+                          ? const Center(
+                              child: Text('Tidak ada data tren BPM per jam'),
+                            )
+                          : LineChartTrend(data: hourlyTrendData),
                     ),
                     const SizedBox(height: 24),
                     const Text(
